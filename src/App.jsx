@@ -24,8 +24,18 @@ function App() {
   const handleDelete = (indexToDelete) => {
     setTasks(tasks.filter((_, index) => index !== indexToDelete));
   };
+  const handleToggle = (indexToToggle) => {
+    setTasks(
+      tasks.map((task, index) =>
+        index === indexToToggle
+          ? { ...task, completed: !task.completed }
+          : task
+      )
+    );
+  };
 
   // ==== JSX that gets returned =====
+
   return (
     <div className="container">
       <h1>My To Do List</h1>
@@ -44,15 +54,20 @@ function App() {
 
       <ul className="task-list">
         {tasks.map((task, index) => (
-          <li key={index} className="task-item">
-            <span className="task-text">{task.text}</span>
-            <button
-              className="delete-button"
-              onClick={() => handleDelete(index)}
-            >
-              🗑️
-            </button>
-          </li>
+      <li key={index} className="task-item">
+        <input
+          type="checkbox"
+          checked={task.completed}
+          onChange={() => handleToggle(index)}
+        />
+        <span className="task-text">{task.text}</span>
+        <button
+          className="delete-button"
+          onClick={() => handleDelete(index)}
+        >
+          🗑️
+        </button>
+      </li>
         ))}
       </ul>
     </div>
